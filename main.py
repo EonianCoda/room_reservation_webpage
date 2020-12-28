@@ -15,6 +15,18 @@ def cookie_check():
         return True
     return False
 
+@app.route('/logout')
+def logout():
+    res = make_response(redirect(url_for("login_page")))
+    res.set_cookie(key='email', value='', expires=0)
+    res.set_cookie(key='password', value='', expires=0)
+    return res
+
+
+    return redirect(url_for('logout'))
+
+
+
 @app.route('/login',methods=['POST','GET'])
 def login_page():
     if cookie_check():
@@ -40,6 +52,7 @@ def record_page():
         return redirect(url_for('login_page'))
 
     return render_template("record.html")
+
 
 @app.route('/', methods=['POST', 'GET'])
 def main_page():
