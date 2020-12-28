@@ -24,9 +24,6 @@ def logout():
 
 
     return redirect(url_for('logout'))
-
-
-
 @app.route('/login',methods=['POST','GET'])
 def login_page():
     if cookie_check():

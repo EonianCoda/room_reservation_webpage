@@ -47,23 +47,23 @@
 		</div>
 	</nav>
 
-	<div>
+	<div class = "h-auto">
 		<div class="d-flex justify-content-center align-items-center h-100">
-			<div class="text-black">
+			<div class="text-black ">
 				<h1 class="text-center mt-5 mb-3">線上教室預約系統</h1>
 				<h5 class="text-center mt-1 mb-5">Welcome to the Virtual Room Reservation Assistant</h5>
-
 				<a
-				class="btn btn-outline-dark btn-lg m-5"
+				class="btn btn-outline-dark btn-lg"
+				style="width: 200px;"
 				href="{{url_for('search_page')}}"
 				role="button"
 				target="_self">
-					
 					<br>查詢與借用
 					<br>Look up and Borrow
 				</a>
 				<a
-				class="btn btn-outline-dark btn-lg m-2"
+				class="btn btn-outline-dark btn-lg m-5"
+				style="width: 200px;"
 				href="{{ url_for('borrow_page') }}"
 				target="_self"
 				role="button">
@@ -71,7 +71,8 @@
 					<br>Borrowing
 				</a>
 				<a
-				class="btn btn-outline-dark btn-lg m-2"
+				class="btn btn-outline-dark btn-lg m-5"
+				style="width: 200px;"
 				href="{{ url_for('record_page') }}"
 				role="button"
 				target="_self">
@@ -82,6 +83,7 @@
 			<div class="d-flex justify-content-end align-items-start h-100">
 				<a
 				class="btn btn-outline-dark btn-lg m-5"
+				style="width: 120px;"
 				href="{{ url_for('logout') }}"
 				role="button"
 				target="_self">
