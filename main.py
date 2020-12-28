@@ -36,6 +36,13 @@ def search_page():
         return redirect(url_for('login_page'))
     
     return render_template("search.html")
+    
+@app.route('/search_result',methods=['POST','GET'])
+def search_result_page():
+    if not cookie_check():
+        return redirect(url_for('login_page'))
+    
+    return render_template("search_result.html")
 
 @app.route('/borrow',methods=['POST','GET'])
 def borrow_page():
