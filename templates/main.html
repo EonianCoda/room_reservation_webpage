@@ -15,7 +15,7 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-white">
+		<nav class="navbar navbar-expand-lg navbar-light bg-white">
 		<div class="container-fluid">
 		  <button
 			class="navbar-toggler"
@@ -45,7 +45,7 @@
 			</ul>
 		  </div>
 		</div>
-	  </nav>
+	</nav>
 	  <!-- Navbar -->
 	
 	<div>
@@ -56,31 +56,33 @@
 
 				<a
 				class="btn btn-outline-dark btn-lg m-5"
-				href="{{url_for('borrow_page')}}"
+				href="{{url_for('search_page')}}"
 				role="button"
-				rel="nofollow"
-				target="_blank">
+				target="_self">
 					
 					<br>查詢與借用
 					<br>Look up and Borrow
 				</a>
 				<a
 				class="btn btn-outline-dark btn-lg m-2"
-				href="https://mdbootstrap.com/docs/standard/"
-				target="_blank"
+				href="{{url_for('borrow_page')}}"
+				target="_self"
 				role="button">
 					<br>借用登記
 					<br>Borrowing
 				</a>
 				<a
 				class="btn btn-outline-dark btn-lg m-2"
-				href="https://mdbootstrap.com/docs/standard/"
-				target="_blank"
+				href="{{url_for('record_page')}}"
+				target="_self"
 				role="button">
 					<br>預約紀錄查詢
 					<br>Borrowing Record
 				</a>
 			</div>
+		</div>
+		<div class="d-flex justify-content-center align-items-center h-100">
+			
 		</div>
 	</div>
 
