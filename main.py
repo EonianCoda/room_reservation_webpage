@@ -1,10 +1,11 @@
 from flask import Flask , render_template
 from flask import request, url_for, flash, redirect, make_response
 
-from fun import authentication, search
+from fun import *
 
 app = Flask(__name__)
 
+buildings=['研揚大樓(TR)','第四教學大樓(T4)','綜合研究大樓(RB)','國際大樓(IB)','電資館(EE)']
 
 def cookie_check():
     """
@@ -35,24 +36,22 @@ def login_page():
 def search_page():
     if not cookie_check():
         return redirect(url_for('login_page'))
+    if request.method =='POST':
+        return render_template("search.html", building=buildings, date=request.form['date'])
+        
+    return render_template("search.html", building=buildings, date=get_current_time())
     
-    return render_template("search.html")
-    
-@app.route('/search_result',methods=['POST','GET'])
-def search_result_page():
-    if not cookie_check():
-        return redirect(url_for('login_page'))
+# @app.route('/search_result',methods=['POST','GET'])
+# def search_result_page():
+#     if not cookie_check():
+#         return redirect(url_for('login_page'))
 
-    elif request.method =='POST':
-        return render_template("search_result.html")
-    
-    
-    return render_template("search_result.html")
+#     return render_template("search_result.html")
 
 @app.route('/borrow',methods=['POST','GET'])
 def borrow_page():
-    # if not cookie_check():
-    #     return redirect(url_for('login_page'))
+    if not cookie_check():
+        return redirect(url_for('login_page'))
     return render_template("borrow.html")
 
 @app.route('/record',methods=['POST','GET'])

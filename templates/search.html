@@ -15,27 +15,30 @@
 		<br>
 	<div class="d-flex justify-content-center align-items-center h-auto w-auto">
 		<nav class="navbar navbar-expand-lg navbar-light">
-			<form method="POST" action={{ url_for('search_result_page') }}>
+			<form method="POST" action={{ url_for('search_page') }}>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav">
 						<li class="nav-item mr-3">
 							<p> 教室位置 </p>
-							<select class="custom-select mr-sm-2 border border-secondary mt-2 mb-3" id="inlineFormCustomSelect" name="building">
+							<select class="custom-select mr-sm-2 border border-secondary mt-2 mb-3" 
+							id="inlineFormCustomSelect" name="building" >
 								<option selected>請選擇大樓...</option>
-								<option value="TR">研揚大樓(TR)</option>
-								<option value="T4">第四教學大樓(T4)</option>
-								<option value="RB">綜合研究大樓(RB)</option>
-								<option value="IB">國際大樓(IB)</option>
-								<option value="EE">電資館(EE)</option>
+								{%for b in building%}
+									{% if b == request.form['building']%}
+										<option value={{b}} selected> {{b}} </option>
+									{% else %}
+										<option value={{b}}> {{b}} </option>
+									{% endif %}
+								{%endfor%} 
 							</select>
 						</li>
 
 						<li class="nav-item mr-3">
-							<p style="vertical-align:top;"> 可容納人數 </p>
+							<p style="vertical-align:top;"> 可容納人數上限 </p>
 							<div class="container border border-dark mt-2">
 								<input style="height: 35px;" onkeyup="value=value.replace(/[^\d]/g,'') " 　　
 									onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
-									　　 id="capacity_input" name="capacity" placeholder="如:10, 25(人)">
+									　　 id="capacity_input" name="capacity" placeholder="如:10, 25(人)" value={{request.form['capacity']}}> 
 							</div>
 						</li>
 						<li class="nav-item mr-4">
@@ -44,7 +47,7 @@
 								
 								<input style="height: 35px;" onkeyup="value=value.replace(/[\W]/g,'') " 　　
 									onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
-									　　 id="room_id_input" name="room_id" placeholder="如:TR-313">
+									　　 id="room_id_input" name="CR_ID" placeholder="如:TR313" value={{request.form['CR_ID']}}>
 							</div>
 						</li>
 					
@@ -55,14 +58,14 @@
 						</button>
 					</li>
 				</div>
-				<input type="date" class="form-control" id="date"  name="datepicker" >
-
+				<input type="date" class="form-control" id="date"  name="date" value={{date}}>
+				
 			</form>
 		
 		</nav>
 	</div>
 
-	<div class="d-flex justify-content-center align-items-center h-auto w-auto text-center">
+	<div class="text-center mt-4" style="overflow-x:auto;white-space: nowrap;">
 		<table class="table table-bordered ">
 			<thead class="table-secondary">
 				<tr>
@@ -84,10 +87,22 @@
 					<th scope="col">第14節</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody >
 				<tr>
-					<th scope="row">TR-313</th>
-					<th scope="row">30</th>
+					<th scope="row" class="align-middle">TR-313</th>
+					<th scope="row" class="align-middle">30</th>
+					<td class="bg-secondary text-center text-light font-weight-bold">
+						會議名稱: 測試
+						<br>借用人: Jerry
+					</td>
+					<td class="bg-secondary text-center text-light font-weight-bold">
+						會議名稱: 測試
+						<br>借用人: Jerry
+					</td>
+					<td class="bg-secondary text-center text-light font-weight-bold">
+						會議名稱: 測試
+						<br>借用人: Jerry
+					</td>
 					<td class="bg-secondary text-center text-light font-weight-bold">
 						會議名稱: 測試
 						<br>借用人: Jerry

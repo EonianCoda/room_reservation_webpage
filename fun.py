@@ -1,9 +1,9 @@
 from datetime import datetime
 import pytz
 
-def getTime():
+def get_current_time():
     taipei = pytz.timezone('Asia/Taipei')
-    return datetime.now(taipei)
+    return datetime.strftime(datetime.now(taipei), "%Y-%m-%d")
 
 def authentication(email:str, password:str):
     """
