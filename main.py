@@ -1,6 +1,7 @@
 from flask import Flask , render_template
 from flask import request, url_for, flash, redirect, make_response
-from fun import authentication
+
+from fun import authentication, search
 
 app = Flask(__name__)
 
@@ -41,6 +42,10 @@ def search_page():
 def search_result_page():
     if not cookie_check():
         return redirect(url_for('login_page'))
+
+    elif request.method =='POST':
+        return render_template("search_result.html")
+    
     
     return render_template("search_result.html")
 

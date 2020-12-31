@@ -5,45 +5,55 @@
 {% block content %}
 	<div>
 		<div class="d-flex justify-content-center align-items-start h-100">
-			<div class="text-black">
-				<h1 class="mb-3">教室查詢與借用</h1>
-				<h5 class="mb-4">Lookup and Reserve</h5>
+			<div class="text-dark">
+				<h1 class="text-center mt-5 mb-3">教室查詢與借用</h1>
 
-				<input type="date" class="form-control" id="date" name="date">
+				<h5 class="text-center mb-4">Lookup and Reserve</h5>		
+				<input type="date" class="form-control" id="date"  name="datepicker" >
 			</div>
 		</div>
 		<br>
+
 		<div class="d-flex justify-content-center align-items-center h-500">
+			
 			<div style="border-color:black;border-style:solid;border-width:2px;padding:30px;">
-				<br>
-				<p>
-					大樓 Building：
-				<div class="container border border-dark"><input onkeyup="value=value.replace(/[\W]/g,'') " 　　
-						onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
-						　　 ID="building_input" NAME="building_input"></div>
-				</p>
-				<br>
-				<p>
-					容納人數 Capacity：
-				<div class="container border border-dark"><input onkeyup="value=value.replace(/[^\d]/g,'') " 　　
-						onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
-						　　 ID="capacity_input" NAME="capacity_input"></div>
-				</p>
-				<br>
-				<p>
-					教室編號 Room ID：
-				<div class="container border border-dark"><input onkeyup="value=value.replace(/[\W]/g,'') " 　　
-						onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
-						　　 ID="room_id_input" NAME="room_id_input"></div>
-				</p>
-				<br>
-				<div class="d-flex justify-content-end align-items-center">
-					<a class="btn btn-outline-dark btn-lg" style="width: 200px;"
-						href="{{url_for('search_result_page')}}" role="button" target="_self">
-						搜尋<br>search
-					</a>
-				</div>
+				<form method="POST" action={{ url_for('search_result_page') }}>
+					<p style="color:black; font-size: 18px;">大樓 Building：</p>
+					<select class="custom-select mr-sm-2 border border-secondary mt-2 mb-3" id="inlineFormCustomSelect">
+						<option selected>請選擇大樓...</option>
+						<option value="TR">研揚大樓(TR)</option>
+						<option value="T4">第四教學大樓(T4)</option>
+						<option value="RB">綜合研究大樓(RB)</option>
+						<option value="IB">國際大樓(IB)</option>
+						<option value="EE">電資館(EE)</option>
+					</select>
+					<br>
+					<p style="color:black; font-size: 18px;">
+						容納人數 Capacity：
+						<div class="container border border-dark">
+							<input onkeyup="value=value.replace(/[^\d]/g,'') " 　　
+								onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+								　　 ID="capacity_input" NAME="capacity_input" placeholder="如:10, 25 ,35 (人)">
+						</div>
+					</p>
+					<br>
+					<p style="color:black; font-size: 18px;">
+						教室編號 Room ID：
+						<div class="container border border-dark">
+							<input onkeyup="value=value.replace(/[\W]/g,'') " 　　
+								onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+								　　 ID="room_id_input" NAME="room_id_input" placeholder="如:TR-313">
+						</div>
+					</p>
+					<br>
+					<div class="d-flex justify-content-center align-items-center">
+						<button class="btn btn-outline-dark btn-lg" style="width: 200px;" type="submit">
+							搜尋<br>search
+						</button>
+					</div>
+				</form>
 			</div>
 		</div>
+		
 	</div>
 {% endblock %}
