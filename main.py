@@ -17,6 +17,13 @@ record_ex2 = {'recordId':'456', 'title':'創業', 'start_date':'2021-02-01', 'st
 
 records = [record_ex, record_ex2]
 
+search_ex = {'building':'研揚大樓','roomName':'TR313','capacity':20,
+'status':{1:(1,'電機系上課','咕你媽逼'), 10:(0, '投影機故障', 'admin')}}
+
+search_ex2 = {'building':'研揚大樓','roomName':'TR414','capacity':30,
+'status':{5:(1,'開會','Jerry'), 14:(0, '椅子壞掉', 'admin')}}
+
+search_result = [search_ex, search_ex2]
 
 def cookie_check():
     """
@@ -48,9 +55,9 @@ def search_page():
     if not cookie_check():
         return redirect(url_for('login_page'))
     if request.method =='POST':
-        return render_template("search.html", building=buildings, date=request.form['date'])
-        
-    return render_template("search.html", building=buildings, date=get_current_time())
+        return render_template("search.html", building=buildings, date=request.form['date'], result=search_result)
+    print("template")
+    return render_template("search.html", building=buildings, date=get_current_time(), result=None)
     
 # @app.route('/search_result',methods=['POST','GET'])
 # def search_result_page():
