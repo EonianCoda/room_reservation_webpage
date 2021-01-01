@@ -1,101 +1,90 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-	<title>線上教室預約系統</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css') }}">
-
-	<link rel="stylesheet" type="text/css" href="../static/vendor/bootstrap/css/bootstrap.min.css">
-
-
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main_page/util.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main_page/main.css')}}">
-</head>
-<body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-white">
-		<div class="container-fluid">
-		  <button
-			class="navbar-toggler"
-			type="button"
-			data-mdb-toggle="collapse"
-			data-mdb-target="#navbarExample01"
-			aria-controls="navbarExample01"
-			aria-expanded="false"
-			aria-label="Toggle navigation"
-		  >
-			<i class="fas fa-bars"></i>
-		  </button>
-		  <div class="collapse navbar-collapse" id="navbarExample01">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-			  <li class="nav-item active">
-				<a class="nav-link" aria-current="page" href="#">Home</a>
-			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="#">Lookup and Borrow</a>
-			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="#">Borrowing</a>
-			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="#">Borrowing Record</a>
-			  </li>
-			</ul>
-		  </div>
-		</div>
-	  </nav>
-	  <!-- Navbar -->
-	
+{% extends "base.html" %}
+{% block title %} 
+線上教室預約系統 - 借用登記
+{% endblock %}
+{% block content %}
 	<div>
-		<div class="d-flex justify-content-center align-items-center h-100">
+		<div class="d-flex justify-content-center align-items-start h-100">
 			<div class="text-black">
-				<h1 class="mb-3">Learn Bootstrap 5 with MDB</h1>
-				<h5 class="mb-4">Best & free guide of responsive web design</h5>
-				<a
-				class="btn btn-outline-dark btn-lg m-2"
-				href="https://www.youtube.com/watch?v=c9B4TPnak1A"
-				role="button"
-				rel="nofollow"
-				target="_blank">
-				Start tutorial
-				</a>
-				<a
-				class="btn btn-outline-dark btn-lg m-2"
-				href="https://mdbootstrap.com/docs/standard/"
-				target="_blank"
-				role="button">
-				Download MDB UI KIT
-				</a>
-				<a
-				class="btn btn-outline-dark btn-lg m-2"
-				href="https://mdbootstrap.com/docs/standard/"
-				target="_blank"
-				role="button">
-				Download MDB UI KIT
-				</a>
+				<h1 class="mb-3">借用登記</h1>
+				<h5 class="mb-4">Borrowing</h5>
+
+			</div>
+		</div>
+		<div class="d-flex justify-content-center align-items-center">
+			<div style="width:75%;border-color:black;border-style:solid;border-width:2px;padding:30px;">
+				<br>
+				會議名稱 Meeting Title：
+				<span>
+					<input class="border border-dark" style="display: inline;width: 50%;left:5%"
+						onkeyup="value=value.replace(/[\W]/g,'') " 　　
+						onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+						　　 ID="meeting_title_input" NAME="meeting_title_input">
+				</span>
+				<br>
+				開始：
+				<div>
+					<input style="display: inline ;width: 30%;left:5%" type="date" class="form-control" id="begin_date"
+						name="begin_date">
+					<span>
+						,&nbsp;&nbsp;第 <input class="border-bottom border-dark" style="width:5%;text-align:center"
+							onkeyup="value=value.replace(/[^\d]/g,'') " 　　
+							onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+							　　 ID="begin_section" NAME="begin_section">
+						節
+					</span>
+				</div>
+				<br>
+				結束：
+				<div>
+					<input style="display: inline ;width: 30%;left:5%" type="date" class="form-control" id="end_date"
+						name="end_date">
+					<span>
+						,&nbsp;&nbsp;第 <input class="border-bottom border-dark" style="width:5%;text-align:center"
+							onkeyup="value=value.replace(/[^\d]/g,'') " 　　
+							onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+							　　 ID="end_section" NAME="end_section">
+						節
+					</span>
+				</div>
+				<br>
+				<br>
+				<div>
+					大樓 Building：
+					<span><input class="container border border-dark" style="display: inline;width: 50%;left:5%"
+							onkeyup="value=value.replace(/[^\d]/g,'') " 　　
+							onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+							　　 ID="building_input" NAME="building_input">
+					</span>
+				</div>
+				<br>
+				<div>
+					教室編號 Room ID：
+					<span><input class="container border border-dark" style="display: inline;width: 50%;left:5%"
+							onkeyup="value=value.replace(/[^\d]/g,'') " 　　
+							onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+							　　 ID="room_id_input" NAME="room_id_input">
+					</span>
+				</div>
+				<br>
+				<br>
+				<div>
+					參與人 Participants：
+					<div><input class="container border border-dark" style="width: 25%;left:5%"
+							onkeyup="value=value.replace(/[^\d]/g,'') " 　　
+							onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+							　　 ID="participant_{{participants_num}}_input"
+							NAME="participant_{{participants_num}}_input">
+					</div>
+				</div>
+				<br>
+				<div class="d-flex justify-content-end align-items-center">
+					<a class="btn btn-outline-dark btn-lg" style="width: 200px;"
+						href="{{url_for('search_page')}}" role="button" target="_self">
+						搜尋<br>search
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
-
-	
-	<script src="{{ url_for('static', filename='js/login_page/main.js') }}" type="text/javascript"></script>
-
-	<script src="{{ url_for('static', filename='vendor/jquery/jquery-3.2.1.min.js') }}" type="text/javascript"></script>
-
-	<script src="{{ url_for('static', filename='vendor/animsition/js/animsition.min.js') }} " type="text/javascript"></script>
-
-	<script src="{{ url_for('static', filename='vendor/bootstrap/js/popper.js') }}" type="text/javascript"></script>
-	<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-
-	<script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}" type="text/javascript"></script>
-
-	<script src="{{ url_for('static', filename='vendor/daterangepicker/moment.min.js') }}" type="text/javascript"></script>
-	<script src="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.js') }}" type="text/javascript"></script>
-
-	<script src="{{ url_for('static', filename='vendor/countdowntime/countdowntime.js') }}" type="text/javascript"></script>
-
-	<script src="{{ url_for('static', filename='js/login_page/main.js' ) }}" type="text/javascript"></script>
-
-</body>
-</html>
+{% endblock %}
