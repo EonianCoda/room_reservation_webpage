@@ -7,6 +7,17 @@ app = Flask(__name__)
 
 buildings=['研揚大樓(TR)','第四教學大樓(T4)','綜合研究大樓(RB)','國際大樓(IB)','電資館(EE)']
 
+record_ex = {'recordId':'123', 'title':'上課','start_date':'2021-01-30', 'start_section':1, 'end_date':'2021-01-30', 'end_section':10,
+'roomName':'TR313', 'building':'研揚大樓(TR)', 'participant':['茶是一種蔬菜湯','茶葉蛋',
+'神棍局局長']}
+
+record_ex2 = {'recordId':'456', 'title':'創業', 'start_date':'2021-02-01', 'start_section':1, 'end_date':'2021-01-31', 'end_section':10,
+'roomName':'TR411', 'building':'研揚大樓(TR)', 'participant':['勞工',
+'CEO','CTO','PM']}
+
+records = [record_ex, record_ex2]
+
+
 def cookie_check():
     """
     check cookie's correctness
@@ -59,8 +70,16 @@ def record_page():
     if not cookie_check():
         return redirect(url_for('login_page'))
 
-    return render_template("record.html")
+    return render_template("record.html", records=records)
 
+@app.route('/single_record',methods=['POST'])
+def single_record_page():
+    if not cookie_check():
+        return redirect(url_for('login_page'))
+    if request.method =='POST':
+        return render_template("single_record.html",record=get_record(request.form['id']))
+    
+    return render_template("single_record.html")
 
 @app.route('/', methods=['POST', 'GET'])
 def main_page():
