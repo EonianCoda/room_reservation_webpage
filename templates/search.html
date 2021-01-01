@@ -44,13 +44,11 @@
 						<li class="nav-item mr-4">
 							<p style="vertical-align:top;"> 教室編號 </p>
 							<div class="container border border-dark mt-2">
-								
 								<input style="height: 35px;" onkeyup="value=value.replace(/[\W]/g,'') " 　　
 									onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
 									　　 id="room_id_input" name="CR_ID" placeholder="如:TR313" value={{request.form['CR_ID']}}>
 							</div>
 						</li>
-					
 					</ul>
 					<li class="nav-item mt-2">
 						<button class="btn btn-primary" style="width: 75px;" type="submit">
