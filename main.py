@@ -113,6 +113,24 @@ def main_page():
     if cookie_check():
         return render_template("main.html", user_name = request.cookies.get('email'))
 
+@app.route('/main_admin', methods=['POST', 'GET'])
+def main_admin_page():
+    #if cookie exists and user information is correct, then enter main page 
+    if cookie_check():
+        return render_template("main_admin.html", user_name = request.cookies.get('email'))
+
+@app.route('/borrow_admin', methods=['POST', 'GET'])
+def borrow_admin_page():
+    if not cookie_check():
+        return redirect(url_for('login_page'))
+    return render_template("borrow_admin.html", buildings=buildings)
+
+@app.route('/account_management', methods=['POST', 'GET'])
+def account_management_page():
+    #if cookie exists and user information is correct, then enter main page 
+    if cookie_check():
+        return render_template("account_management.html", user_name = request.cookies.get('email'))
+
 
     if request.method =='POST':
         #TODO encryption
