@@ -42,8 +42,21 @@ def logout():
     res.set_cookie(key='password', value='', expires=0)
     return res
 
+@app.route('/register',methods=['POST','GET'])
+def register_page():
+    if cookie_check():
+        return redirect(url_for('main_page'))
+    if request.method == 'POST':
+        print('yes123')
+        if register(request.form):
+            
+            #註冊成功
+            return redirect(url_for('login_page'))
+        else:
+            #註冊失敗
+            return render_template("register.html")
+    return render_template("register.html")
 
-    return redirect(url_for('logout'))
 @app.route('/login',methods=['POST','GET'])
 def login_page():
     if cookie_check():
@@ -97,6 +110,7 @@ def main_page():
 
     if request.method =='POST':
         #TODO encryption
+        print(request.form)
         if authentication(request.form['email'], request.form['password']):
             resp = make_response(render_template("main.html"))
             #set cookie
@@ -108,7 +122,7 @@ def main_page():
             return redirect(url_for('login_page'))
     else:
         return redirect(url_for('login_page'))
-         
+      
     
 if __name__ == '__main__':
     app.debug = True

@@ -21,6 +21,7 @@ def authentication(email:str, password:str):
     """
     if email == None or password == None:
         return False
+    
     return True
 
 def search():
@@ -30,3 +31,6 @@ def get_record(id):
     for record in records:
         if record['recordId'] == id:
             return record
+
+def register(data):
+    return True
