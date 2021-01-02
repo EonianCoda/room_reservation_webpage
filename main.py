@@ -55,9 +55,9 @@ def search_page():
     if not cookie_check():
         return redirect(url_for('login_page'))
     if request.method =='POST':
-        return render_template("search.html", building=buildings, date=request.form['date'], result=search_result)
+        return render_template("search.html", buildings=buildings, date=request.form['date'], result=search_result)
     print("template")
-    return render_template("search.html", building=buildings, date=get_current_time(), result=None)
+    return render_template("search.html", buildings=buildings, date=get_current_time(), result=None)
     
 # @app.route('/search_result',methods=['POST','GET'])
 # def search_result_page():
@@ -70,7 +70,7 @@ def search_page():
 def borrow_page():
     if not cookie_check():
         return redirect(url_for('login_page'))
-    return render_template("borrow.html")
+    return render_template("borrow.html", buildings=buildings)
 
 @app.route('/record',methods=['POST','GET'])
 def record_page():
