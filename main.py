@@ -47,7 +47,6 @@ def register_page():
     if cookie_check():
         return redirect(url_for('main_page'))
     if request.method == 'POST':
-        print('yes123')
         if register(request.form):
             
             #註冊成功

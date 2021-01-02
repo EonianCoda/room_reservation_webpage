@@ -71,7 +71,7 @@
 						</div>
 						<div class="text-center" style="overflow-y:auto;white-space: nowrap;height: 200px; width: 400px;">
 					<table id="myTable" class="table order-list">
-						
+						<input hidden name ="counter" id="counter" value=0>
 						<tbody>
 							<tr>
 								<td class="col-sm-4">
@@ -98,6 +98,25 @@
 {% endblock %}
 
 {% block script %}
+<script>
+	$(document).ready(function () {
+	var id = document.getElementById("counter");
+    
+    $("#addrow").on("click", function () {
+        var newRow = $("<tr>");
+		var cols = "";
+		
+        cols += '<td><input type="text" class="form-control" name="name' + id.value + '"/></td>';
+        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+        newRow.append(cols);
+		$("table.order-list").append(newRow);
+		id.value++;
+    });
 
-<script src="{{ url_for('static', filename='js/borrow_page/addRow.js' ) }}" type="text/javascript"></script>
+
+    $("table.order-list").on("click", ".ibtnDel", function (event) {
+        $(this).closest("tr").remove();
+    });
+});
+</script>
 {% endblock %}
