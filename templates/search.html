@@ -8,7 +8,7 @@
 			<div class="text-dark">
 				<h1 class="text-center mt-3 mb-2">教室查詢與借用</h1>
 
-				<h5 class="text-center mb">Lookup and Reserve</h5>		
+				<h5 class="text-center">Lookup and Reserve</h5>		
 				
 			</div>
 		</div>
@@ -23,7 +23,7 @@
 							<select class="custom-select mr-sm-2 border border-secondary mt-2 mb-3" 
 							id="inlineFormCustomSelect" name="building" >
 								<option selected>請選擇大樓...</option>
-								{%for b in building%}
+								{%for b in buildings%}
 									{% if b == request.form['building']%}
 										<option value={{b}} selected> {{b}} </option>
 									{% else %}
@@ -36,7 +36,7 @@
 						<li class="nav-item mr-3">
 							<p style="vertical-align:top;"> 可容納人數上限 </p>
 							<div class="container border border-dark mt-2">
-								<input style="height: 35px;" onkeyup="value=value.replace(/[^\d]/g,'') " 　　
+								<input class = "w-100" style="height: 35px;" onkeyup="value=value.replace(/[^\d]/g,'') " 　　
 									onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
 									　　 id="capacity_input" name="capacity" placeholder="如:10, 25(人)" value={{request.form['capacity']}}> 
 							</div>
@@ -44,11 +44,13 @@
 						<li class="nav-item mr-4">
 							<p style="vertical-align:top;"> 教室編號 </p>
 							<div class="container border border-dark mt-2">
-								<input style="height: 35px;" onkeyup="value=value.replace(/[\W]/g,'') " 　　
+								
+								<input class = "w-100" style="height: 35px;" onkeyup="value=value.replace(/[\W]/g,'') " 　　
 									onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
 									　　 id="room_id_input" name="CR_ID" placeholder="如:TR313" value={{request.form['CR_ID']}}>
 							</div>
 						</li>
+					
 					</ul>
 					<li class="nav-item mt-2">
 						<button class="btn btn-primary" style="width: 75px;" type="submit">
@@ -64,9 +66,10 @@
 	</div>
 
 	<div class="text-center mt-4" style="overflow-x:auto;white-space: nowrap;">
-		<table class="table table-bordered ">
+		<table  class="table table-bordered">
 			<thead class="table-secondary">
 				<tr>
+					<th scope="col">教室位置</th>
 					<th scope="col">教室</th>
 					<th scope="col">可容納人數</th>
 					<th scope="col">第1節</th>
@@ -85,81 +88,51 @@
 					<th scope="col">第14節</th>
 				</tr>
 			</thead>
-			<tbody >
-				<tr>
-					<th scope="row" class="align-middle">TR-313</th>
-					<th scope="row" class="align-middle">30</th>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-					<td class="bg-secondary text-center text-light font-weight-bold">
-						會議名稱: 測試
-						<br>借用人: Jerry
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">2</th>
-					<td>Jacob</td>
-					<td>Thornton</td>
-					<td>@fat</td>
-				</tr>
-				<tr>
-					<th scope="row">3</th>
-					<td>Larry</td>
-					<td>the Bird</td>
-					<td>@twitter</td>
-				</tr>
+			<tbody>
+				{%if result != None %}
+					{%for r in result%}
+					<tr>
+						<th scope="row" class="text-center align-middle">
+							{{r['building']}}
+						</th>
+						<th scope="row" class="text-center align-middle">
+							{{r['roomName']}}
+						</th>
+
+						<th scope="row" class="text-center align-middle">
+							{{r['capacity']}}
+						</th>
+						{%for i in range(1, 15)%}
+							{% if r['status'].get(i) != None %}
+								{% if r['status'][i][0] == 0%}
+									<td class="bg-danger text-center align-middle text-light font-weight-bold">
+										原因: {{r['status'][i][1]}}
+									</td>
+								{% else %}
+									<td class="bg-info text-center align-middle text-light font-weight-bold">
+									會議名稱: {{r['status'][i][1]}}
+									<br>借用人: {{r['status'][i][2]}}
+								</td>
+								{% endif %}
+							{% else %}
+							<td class="text-center align-middle">
+							</td>
+							{%endif%}
+						{%endfor%}
+
+					</tr>
+				{%endfor%}
 			</tbody>
+
 		</table>
+		
+		{% else %}
+			</tbody>
+
+		</table>
+		<h1 class="text-center mt-3 mb-2">無資料</h1>
+		{% endif %}
 	</div>
+
 	
 {% endblock %}
