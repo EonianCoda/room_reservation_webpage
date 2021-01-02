@@ -7,6 +7,24 @@ app = Flask(__name__)
 
 buildings=['研揚大樓(TR)','第四教學大樓(T4)','綜合研究大樓(RB)','國際大樓(IB)','電資館(EE)']
 
+record_ex = {'recordId':'123', 'title':'上課','start_date':'2021-01-30', 'start_section':1, 'end_date':'2021-01-30', 'end_section':10,
+'roomName':'TR313', 'building':'研揚大樓(TR)', 'participant':['茶是一種蔬菜湯','茶葉蛋',
+'神棍局局長']}
+
+record_ex2 = {'recordId':'456', 'title':'創業', 'start_date':'2021-02-01', 'start_section':1, 'end_date':'2021-01-31', 'end_section':10,
+'roomName':'TR411', 'building':'研揚大樓(TR)', 'participant':['勞工',
+'CEO','CTO','PM']}
+
+records = [record_ex, record_ex2]
+
+search_ex = {'building':'研揚大樓','roomName':'TR313','capacity':20,
+'status':{1:(1,'電機系上課','咕你媽逼'), 10:(0, '投影機故障', 'admin')}}
+
+search_ex2 = {'building':'研揚大樓','roomName':'TR414','capacity':30,
+'status':{5:(1,'開會','Jerry'), 14:(0, '椅子壞掉', 'admin')}}
+
+search_result = [search_ex, search_ex2]
+
 def cookie_check():
     """
     check cookie's correctness
@@ -24,8 +42,20 @@ def logout():
     res.set_cookie(key='password', value='', expires=0)
     return res
 
+@app.route('/register',methods=['POST','GET'])
+def register_page():
+    if cookie_check():
+        return redirect(url_for('main_page'))
+    if request.method == 'POST':
+        if register(request.form):
+            
+            #註冊成功
+            return redirect(url_for('login_page'))
+        else:
+            #註冊失敗
+            return render_template("register.html")
+    return render_template("register.html")
 
-    return redirect(url_for('logout'))
 @app.route('/login',methods=['POST','GET'])
 def login_page():
     if cookie_check():
@@ -37,9 +67,9 @@ def search_page():
     if not cookie_check():
         return redirect(url_for('login_page'))
     if request.method =='POST':
-        return render_template("search.html", building=buildings, date=request.form['date'])
-        
-    return render_template("search.html", building=buildings, date=get_current_time())
+        return render_template("search.html", buildings=buildings, date=request.form['date'], result=search_result)
+    print("template")
+    return render_template("search.html", buildings=buildings, date=get_current_time(), result=None)
     
 # @app.route('/search_result',methods=['POST','GET'])
 # def search_result_page():
@@ -52,15 +82,30 @@ def search_page():
 def borrow_page():
     if not cookie_check():
         return redirect(url_for('login_page'))
-    return render_template("borrow.html")
+    return render_template("borrow.html", buildings=buildings)
 
 @app.route('/record',methods=['POST','GET'])
 def record_page():
     if not cookie_check():
         return redirect(url_for('login_page'))
+    
+    return render_template("record.html", records=records)
 
-    return render_template("record.html")
-
+@app.route('/single_record',methods=['POST'])
+def single_record_page():
+    if not cookie_check():
+        return redirect(url_for('login_page'))
+    if request.method =='POST':
+        if request.form['postType'] == 'get':
+            print('get')
+            return render_template("single_record.html",record=get_record(request.form['id']))
+        elif request.form['postType'] == 'modify':
+            modify_record(request.form)
+            return redirect(url_for('record_page'))
+        elif request.form['postType'] == 'delete':
+            delete_record(request.form)
+            return redirect(url_for('record_page'))
+    return redirect(url_for('main_page'))
 
 @app.route('/', methods=['POST', 'GET'])
 def main_page():
@@ -71,6 +116,7 @@ def main_page():
 
     if request.method =='POST':
         #TODO encryption
+        print(request.form)
         if authentication(request.form['email'], request.form['password']):
             resp = make_response(render_template("main.html"))
             #set cookie
@@ -82,7 +128,7 @@ def main_page():
             return redirect(url_for('login_page'))
     else:
         return redirect(url_for('login_page'))
-         
+      
     
 if __name__ == '__main__':
     app.debug = True

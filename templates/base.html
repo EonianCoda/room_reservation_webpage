@@ -28,7 +28,7 @@
 						<a class="nav-link" aria-current="page" href="{{ url_for('main_page') }}">首頁</a>
 					</li>
 					<li class=" nav-item">
-						<a class="nav-link" href="{{ url_for('search_page') }}">查詢與借用</a>
+						<a class="nav-link" href={{ url_for('search_page') }}>查詢與借用</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('borrow_page') }}">借用登記</a>
@@ -41,7 +41,7 @@
 
 			</div>
 		</div>
-		<a class="btn btn-outline-dark btn-lg" href="{{url_for('logout')}}" role="button" target="_self">
+		<a class="btn btn-success btn-lg" href="{{url_for('logout')}}" role="button" target="_self">
 			登出
 		</a>
 	</nav>
@@ -74,7 +74,8 @@
 		type="text/javascript"></script>
 
 	<script src="{{ url_for('static', filename='js/login_page/main.js' ) }}" type="text/javascript"></script>
-
+	{% block script %}
+	{% endblock %}
 </body>
 
 </html>

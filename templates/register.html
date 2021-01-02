@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 
 <head>
-	<title> 線上教室預約系統-登入</title>
+	<title> 線上教室預約系統-註冊</title>
     <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,31 +16,42 @@
 <body>
 	<div class="d-flex justify-content-center align-items-center w-100 h-100" style="background: #e9faff;">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-			<form method="POST" action={{ url_for('main_page') }}>
+			<form method="POST" action={{url_for('register_page')}} >
 				<span class="login100-form-title p-b-33">
-					帳號登入(Account Login)
+					創建帳號(Create Account)
 				</span>
 
 				<div class="form-group">
 				  <label for="emailInput">電子信箱(Email)</label>
 				  <input type="email" class="form-control" id ="emailInput" aria-describedby="emailHelp" placeholder="Email" name="email">
 				  <small id="emailHelp" class="form-text text-muted">必須以@gmail.com結尾</small>
-				</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="userNameInput">使用者名稱(User Name)</label>
+                    <input class="form-control" id ="userNameInput" aria-describedby="userNameHelp" placeholder="UserName" name="userName">
+                    <small id="userNameHelp" class="form-text text-muted">以十個字為限</small>
+                  </div>
+
 				<div class="form-group">
 				  <label for="passwordInput">密碼(Password)</label>
 				  <input type="password" class="form-control" id="passwordInput" placeholder="Password" name="password">
-				</div>
-				<button type="submit" class="btn btn-primary w-100">登入(Sign in)</button>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPasswordInput">確定密碼(Confirm password)</label>
+                    <input type="password" class="form-control" id="confirmPasswordInput" placeholder="Confirm your password" name="confirmPassword">
+                  </div>
+				<button type="submit" class="btn btn-primary w-100">註冊(Sign up)</button>
 			</form>
 			
 
 			<div class="text-center mt-4">
 				<span class="txt1">
-					Create an account?
+					Already have an account?
 				</span>
 
-				<a href={{url_for('register_page')}} class="txt2 hov1" target="_self">
-					Sign up
+				<a href={{url_for('login_page')}} class="txt2 hov1">
+					Sign in
 				</a>
 			<div>
 			
