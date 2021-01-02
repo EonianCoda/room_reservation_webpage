@@ -34,3 +34,21 @@ def get_record(id):
 
 def register(data):
     return True
+
+
+def modify_record(data):
+    recordId = data['recordId']
+    participants = []
+    for i in range(int(data['counter'])):
+        p = data.get('participant' + str(i))
+        if  p != None and p != '':
+            participants.append(data['participant' + str(i)])
+    print(participants)
+    participants = ",".join(participants)
+    print(participants)
+
+    return True
+def delete_record(data):
+    print(data)
+    recordId = data['recordId']
+    print("delete", recordId)

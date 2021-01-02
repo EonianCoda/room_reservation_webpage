@@ -88,7 +88,7 @@ def borrow_page():
 def record_page():
     if not cookie_check():
         return redirect(url_for('login_page'))
-
+    
     return render_template("record.html", records=records)
 
 @app.route('/single_record',methods=['POST'])
@@ -96,9 +96,16 @@ def single_record_page():
     if not cookie_check():
         return redirect(url_for('login_page'))
     if request.method =='POST':
-        return render_template("single_record.html",record=get_record(request.form['id']))
-    
-    return render_template("single_record.html")
+        if request.form['postType'] == 'get':
+            print('get')
+            return render_template("single_record.html",record=get_record(request.form['id']))
+        elif request.form['postType'] == 'modify':
+            modify_record(request.form)
+            return redirect(url_for('record_page'))
+        elif request.form['postType'] == 'delete':
+            delete_record(request.form)
+            return redirect(url_for('record_page'))
+    return redirect(url_for('main_page'))
 
 @app.route('/', methods=['POST', 'GET'])
 def main_page():
