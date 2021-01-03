@@ -2,6 +2,7 @@ from flask import Flask , render_template
 from flask import request, url_for, flash, redirect, make_response
 
 from fun import *
+import datetime
 
 app = Flask(__name__)
 
@@ -16,13 +17,7 @@ record_ex2 = {'recordID':'456', 'title':'創業', 'startDate':'2021-02-01', 'sta
 
 records = [record_ex, record_ex2]
 
-search_ex = {'building':'研揚大樓','roomName':'TR313','capacity':20,
-'status':{1:(1,'電機系上課','咕你媽逼'), 10:(0, '投影機故障', 'admin')}}
-
-search_ex2 = {'building':'研揚大樓','roomName':'TR414','capacity':30,
-'status':{5:(1,'開會','Jerry'), 14:(0, '椅子壞掉', 'admin')}}
-
-search_result = [search_ex, search_ex2]
+weekdays= ['一', '二', '三', '四','五','六','日']
 
 def cookie_check():
     """
@@ -65,7 +60,8 @@ def search_page():
     if not check[0]:
         return redirect(url_for('login_page'))
     if request.method =='POST':
-        return render_template("search.html", buildings=buildings, date=request.form['date'], result=search_result, admin = check[1])
+        result = get_search_result(request.form)
+        return render_template("search.html", buildings=buildings, date=request.form['date'], result=result, admin = check[1])
     return render_template("search.html", buildings=buildings, date=get_current_time(), result=None, admin = check[1])
     
 @app.route('/borrow',methods=['POST','GET'])
@@ -80,7 +76,8 @@ def record_page():
     check = cookie_check()
     if not check[0]:
         return redirect(url_for('login_page'))
-    
+
+
     return render_template("record.html", records=records, admin = check[1])
 
 @app.route('/single_record',methods=['POST'])
@@ -162,7 +159,32 @@ def account_management_page():
     else:
         return redirect(url_for('login_page'))
       
-    
+@app.route('/search_single',methods=['POST','GET'])
+def search_single_page():
+    check = cookie_check()
+    if not check[0]:
+        return redirect(url_for('login_page'))
+    if request.method =='POST':
+        classroom_data = get_single_result(request.form['CR_ID'], request.form['start_date'])
+        start_date = request.form['start_date']
+        
+        start_date = datetime.datetime(int(start_date.split('-')[0]), 
+                                        int(start_date.split('-')[1]),
+                                        int(start_date.split('-')[2]))
+        dates = [start_date]
+        dates_weekdays = []
+        for i in range(1,7):
+            dates.append(start_date + datetime.timedelta(i))
+        for i in range(7):
+            dates_weekdays.append(weekdays[dates[i].weekday()])
+            dates[i] = datetime.datetime.strftime(dates[i], "%Y-%m-%d")
+            
+        print(dates, dates_weekdays)
+        return render_template("search_single.html",classroom = search_single_ex,
+                                                    dates = dates,
+                                                    dates_weekdays = dates_weekdays,
+                                                    admin = check[1])
+    return redirect(url_for('main_page'))
 if __name__ == '__main__':
     app.debug = True
     app.secret_key = "test Key"
