@@ -11,7 +11,8 @@
 
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main_page/util.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main_page/main.css')}}">
-    
+	{% block head_script%}
+	{% endblock %}
 </head>
 
 <body>

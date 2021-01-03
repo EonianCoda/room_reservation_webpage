@@ -12,8 +12,7 @@ record_ex = {'recordID':'123', 'title':'上課','startDate':'2021-01-30', 'start
 '神棍局局長']}
 
 record_ex2 = {'recordID':'456', 'title':'創業', 'startDate':'2021-02-01', 'startSection':1, 'endDate':'2021-01-31', 'endSection':10,
-'roomName':'TR411', 'building':'研揚大樓(TR)', 'participant':['勞工',
-'CEO','CTO','PM']}
+'roomName':'TR411', 'building':'研揚大樓(TR)', 'participant':[]}
 
 records = [record_ex, record_ex2]
 
@@ -123,25 +122,43 @@ def main_page():
     
     return redirect(url_for('login_page'))
 
-
-@app.route('/main_admin', methods=['POST', 'GET'])
-def main_admin_page():
-    #if cookie exists and user information is correct, then enter main page 
-    if cookie_check():
-        return render_template("main_admin.html", user_name = request.cookies.get('email'))
-
-@app.route('/borrow_admin', methods=['POST', 'GET'])
-def borrow_admin_page():
-    if not cookie_check():
-        return redirect(url_for('login_page'))
-    return render_template("borrow_admin.html", buildings=buildings)
-
 @app.route('/account_management', methods=['POST', 'GET'])
 def account_management_page():
     #if cookie exists and user information is correct, then enter main page 
     check = cookie_check()
     if check[0] and check[1] == "admin":
-        return render_template("account_management.html", user_name = request.cookies.get('email'), admin=check[1])
+        if request.method == "POST":
+            print(request.form)
+            if request.form['postType'] == "search":
+                result = getUserData(request.form['userName'])
+                if result[0]:
+                    return render_template("account_management.html", user = result[1], admin=check[1])
+                else:
+                    return render_template("account_management.html", user = result[1], admin=check[1], message = "error")
+            elif request.form['postType'] == "delete":
+                result = deleteAccount(request.form['userID'])
+                if result:
+                    result = "delete_success"
+                else:
+                    result = "delete_fail"
+                return render_template("account_management.html", user = None, admin=check[1], message = result)
+
+            elif request.form['postType'] == "ban":
+                result = banAccount(request.form['userID'])
+                if result:
+                    result = "ban_success"
+                else:
+                    result = "ban_fail"
+                return render_template("account_management.html", user = None, admin=check[1], message = result)
+
+            elif request.form['postType'] == "unban":
+                result = unBanAccount(request.form['userID'])
+                if result:
+                    result = "unban_success"
+                else:
+                    result = "unban_fail"
+                return render_template("account_management.html", user = None, admin=check[1], message = result)
+        return render_template("account_management.html", user = None, admin=check[1])
     else:
         return redirect(url_for('login_page'))
       
