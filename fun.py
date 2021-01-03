@@ -35,7 +35,7 @@ def search():
 
 def get_record(id):
     for record in records:
-        if record['recordId'] == id:
+        if record['recordID'] == id:
             return record
 
 def register(data):
@@ -43,7 +43,7 @@ def register(data):
 
 
 def modify_record(data):
-    recordId = data['recordId']
+    recordID = data['recordID']
     participants = []
     for i in range(int(data['counter'])):
         p = data.get('participant' + str(i))
@@ -56,5 +56,5 @@ def modify_record(data):
     return True
 def delete_record(data):
     print(data)
-    recordId = data['recordId']
-    print("delete", recordId)
+    recordID = data['recordID']
+    print("delete", recordID)
