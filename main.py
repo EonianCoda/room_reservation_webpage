@@ -90,6 +90,19 @@ def borrow_page():
         return redirect(url_for('login_page'))
     return render_template("borrow.html", buildings=buildings, admin=check[1])
 
+@app.route('/borrow_search',methods=['POST','GET'])
+def borrow_search_page():
+    check = cookie_check()
+    if not check[0]:
+        return redirect(url_for('login_page'))
+
+    if request.method == "POST":
+        print(request.form)
+        return render_template("borrow_search.html")
+
+    return render_template("borrow_search.html")
+
+
 @app.route('/record',methods=['POST','GET'])
 def record_page():
     check = cookie_check()

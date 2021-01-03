@@ -33,6 +33,8 @@ search_single7 = {3:(1,'電機系上課','WackilySmiley'), 10:(0, '投影機故�
 search_single_ex = {'CR_ID':1,'building':'研揚大樓','roomName':'TR313','capacity':20, 'status':[search_single1,search_single2,
 search_single3,search_single4,search_single5,search_single6,search_single7]}
 
+def get_record(recordID):
+    return record_ex
 def register(data):
     if data['userName'] == "error":
         return False
