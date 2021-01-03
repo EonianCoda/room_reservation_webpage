@@ -67,12 +67,7 @@ def modify_record(data):
 
 def delete_record(data):
     print(data)
-<<<<<<< HEAD
-    recordId = data['recordId']
-    print("delete", recordId)
-=======
     recordID = data['recordID']
     print("delete", recordID)
 
 
->>>>>>> c6540636381501790dc1c7f1d10b4fee1b081591

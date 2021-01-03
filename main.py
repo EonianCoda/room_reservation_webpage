@@ -180,9 +180,6 @@ def account_management_page():
     #if cookie exists and user information is correct, then enter main page 
     check = cookie_check()
     if check[0] and check[1] == "admin":
-<<<<<<< HEAD
-        return render_template("account_management.html", user = user_ex1, admin=check[1])
-=======
         if request.method == "POST":
             print(request.form)
             if request.form['postType'] == "search":
@@ -215,7 +212,6 @@ def account_management_page():
                     result = "unban_fail"
                 return render_template("account_management.html", user = None, admin=check[1], message = result)
         return render_template("account_management.html", user = None, admin=check[1])
->>>>>>> c6540636381501790dc1c7f1d10b4fee1b081591
     else:
         return redirect(url_for('login_page'))
       
@@ -225,11 +221,6 @@ def search_single_page():
     if not check[0]:
         return redirect(url_for('login_page'))
     if request.method =='POST':
-<<<<<<< HEAD
-        return render_template("search_single.html",classroom = classroom_ex,records = search_single_exs, start_search_date = datetime(2020, 5, 17), admin = check[1])
-    return render_template("search_single.html",classroom=classroom_ex,records = search_single_exs, start_search_date = datetime(2020, 5, 17), admin = check[1])
-
-=======
         classroom_data = get_single_result(request.form['CR_ID'], request.form['start_date'])
         start_date = request.form['start_date']
         
@@ -250,7 +241,6 @@ def search_single_page():
                                                     dates_weekdays = dates_weekdays,
                                                     admin = check[1])
     return redirect(url_for('main_page'))
->>>>>>> c6540636381501790dc1c7f1d10b4fee1b081591
 if __name__ == '__main__':
     app.debug = True
     app.secret_key = "test Key"
