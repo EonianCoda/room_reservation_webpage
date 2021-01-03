@@ -33,6 +33,48 @@ search_single7 = {3:(1,'電機系上課','WackilySmiley'), 10:(0, '投影機故�
 search_single_ex = {'CR_ID':1,'building':'研揚大樓','roomName':'TR313','capacity':20, 'status':[search_single1,search_single2,
 search_single3,search_single4,search_single5,search_single6,search_single7]}
 
+def register(data):
+    if data['userName'] == "error":
+        return False
+    return True
+
+def search():
+    return True
+
+def cookie_authentication(email:str, password:str):
+    """
+    check user iuformation for cookie
+    """
+    if email == None or password == None:
+        return (False, None)
+    elif password == "admin": #admin account
+        print((True, "admin"))
+        return (True, "admin")
+    print((True, "normal"))
+
+    return (True, "normal")
+
+def authentication(email:str, password:str):
+    """
+    check user iuformation for login
+    """
+    print("驗證" , email, password)
+    if email == "error@gamil.com": #信箱錯誤
+        return (1, None)
+    elif password == "error": #密碼錯誤
+        return (2, None)
+    return (0, "咕你媽逼") #(status, username)
+
+
+def getUserData(userName):
+    if userName == "wacky":
+        return (True, user_ex1)
+    elif userName == "hello":
+        return (True, user_ex2)
+    else:
+        return (False, None)
+
+
 def get_search_result(data):
     return search_result
 
@@ -42,13 +84,6 @@ def get_single_result(CR_ID, start_date):
 def get_current_time():
     taipei = pytz.timezone('Asia/Taipei')
     return datetime.strftime(datetime.now(taipei), "%Y-%m-%d")
-
-
-
-
-
-
-
 
 
 def modify_record(data):
@@ -68,5 +103,3 @@ def delete_record(data):
     print(data)
     recordID = data['recordID']
     print("delete", recordID)
-
-
