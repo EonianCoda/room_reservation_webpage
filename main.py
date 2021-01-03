@@ -25,6 +25,8 @@ search_ex2 = {'building':'研揚大樓','roomName':'TR414','capacity':30,
 
 search_result = [search_ex, search_ex2]
 
+user_ex1={"userID":0,"userName":"wacky","nickName":"OwO","password":"hahaha","email":"chenghan0516@gmail.com","identity":0,"banned":0}
+
 def cookie_check():
     """
     check cookie's correctness
@@ -123,25 +125,12 @@ def main_page():
     
     return redirect(url_for('login_page'))
 
-
-@app.route('/main_admin', methods=['POST', 'GET'])
-def main_admin_page():
-    #if cookie exists and user information is correct, then enter main page 
-    if cookie_check():
-        return render_template("main_admin.html", user_name = request.cookies.get('email'))
-
-@app.route('/borrow_admin', methods=['POST', 'GET'])
-def borrow_admin_page():
-    if not cookie_check():
-        return redirect(url_for('login_page'))
-    return render_template("borrow_admin.html", buildings=buildings)
-
 @app.route('/account_management', methods=['POST', 'GET'])
 def account_management_page():
     #if cookie exists and user information is correct, then enter main page 
     check = cookie_check()
     if check[0] and check[1] == "admin":
-        return render_template("account_management.html", user_name = request.cookies.get('email'), admin=check[1])
+        return render_template("account_management.html", user = user_ex1, admin=check[1])
     else:
         return redirect(url_for('login_page'))
       

@@ -16,15 +16,14 @@
 		<br>
 	<div class="d-flex justify-content-center align-items-center h-auto w-auto">
 		<nav class="navbar navbar-expand-lg navbar-light">
-			<form method="POST" action={{ url_for('search_page') }}>
+			<form method="POST" action={{ url_for('account_management_page') }}>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav">
 						
 						<li class="nav-item mr-3">
 							<p style="vertical-align:top;"> 帳號 Account Name </p>
 							<div class="container border border-dark mt-2">
-								<input class = "w-100" style="height: 35px;"
-									　　 id="capacity_input" name="capacity" placeholder="如:ChingChongRiceEatingMotherFxxker123" value={{request.form['capacity']}}> 
+								<input class = "w-100" style="height: 35px;"id="capacity_input" name="capacity" placeholder="如:ChingChongRiceEatingMotherFxxker123" value={{request.form['capacity']}}> 
 							</div>
 						</li>
 						
@@ -43,12 +42,12 @@
 
 	<div class="d-flex justify-content-center align-items-center mt-4">
 		<div style="width:75%;border-color:black;border-style:solid;border-width:1px;padding:30px;">
-			<form method="POST" action={{url_for('borrow_page')}}>
+			<form method="POST" action={{url_for('account_management_page')}}>
 				<div class="form-group">
-				  <label for="titleInput">帳號(Account Name)：</label>
+				  <label for="titleInput">帳號(Account Name)：{{user["userName"]}}</label>
 				</div>
 				<div class="form-group">
-					<label for="titleInput">暱稱(Nickname)：</label>
+					<label for="titleInput">暱稱(Nickname)：{{user["nickName"]}}</label>
 				</div>
 				<div class="form-group">
 					<label for="titleInput">禁用狀態(status)：</label>
