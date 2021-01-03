@@ -102,3 +102,32 @@
 
 	
 {% endblock %}
+
+{% block script %}
+<script>
+
+function addItem(form, name, value)
+{
+	const hiddenField = document.createElement("input");
+
+	hiddenField.type = 'hidden';
+	hiddenField.name =  name;
+	hiddenField.value = value;
+	form.appendChild(hiddenField);
+}
+
+$("#date").on("change", function () {
+	var form = document.createElement("form");
+	const start_date = document.getElementById('date').value;
+	
+	form.setAttribute("action", '{{url_for('search_single_page')}}');
+	form.setAttribute("method", "post");
+	addItem(form, "CR_ID", "{{classroom['CR_ID']}}");
+	addItem(form, "start_date", start_date);
+	document.body.appendChild(form);
+	form.submit();
+});
+
+
+</script>
+{% endblock %}

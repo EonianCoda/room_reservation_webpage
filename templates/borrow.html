@@ -188,7 +188,7 @@
 
 	function addItem(form, name, value)
 	{
-		const hiddenField = document.getElementById('borrow_form');
+		const hiddenField = document.createElement("input");
 
 		hiddenField.type = 'hidden';
 		hiddenField.name =  name;

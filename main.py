@@ -114,6 +114,7 @@ def borrow_search_page():
         return redirect(url_for('login_page'))
 
     if request.method == "POST":
+        print('borrow_search:',request.form)
         result = search_for_borrow(request.form)
         return render_template("borrow_search.html", result=result)
 

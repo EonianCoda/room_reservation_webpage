@@ -69,7 +69,6 @@ def cookie_authentication(email:str, password:str):
     if email == None or password == None:
         return (False, None)
     elif password == "admin": #admin account
-        print((True, "admin"))
         return (True, "admin")
     print((True, "normal"))
 
