@@ -19,29 +19,49 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav">
 							<li class="nav-item mr-3">
+<<<<<<< HEAD
 								<p> 教室位置 </p>
 								<div class="container">
+=======
+								<p class="text-center"> 教室位置 </p>
+								<div class="container text-center">
+>>>>>>> c6540636381501790dc1c7f1d10b4fee1b081591
 									{{classroom["building"]}}
 								</div>
 							</li>
 	
 							<li class="nav-item mr-3">
+<<<<<<< HEAD
 								<p style="vertical-align:top;"> 可容納人數上限 </p>
 								<div class="container">
+=======
+								<p class ="text-center" style="vertical-align:top;"> 可容納人數上限 </p>
+								<div class="container text-center">
+>>>>>>> c6540636381501790dc1c7f1d10b4fee1b081591
 									{{classroom["capacity"]}}
 								</div>
 							</li>
 							<li class="nav-item mr-4">
+<<<<<<< HEAD
 								<p style="vertical-align:top;"> 教室編號 </p>
 								<div class="container">
 									{{classroom["roomname"]}}
+=======
+								<p class = "text-center"style="vertical-align:top;"> 教室編號 </p>
+								<div class="container text-center">
+									{{classroom["roomName"]}}
+>>>>>>> c6540636381501790dc1c7f1d10b4fee1b081591
 								</div>
 							</li>
 						
 						</ul>
 						
 					</div>
+<<<<<<< HEAD
 					<input type="date" class="form-control" id="date"  name="date" value={{date}}>
+=======
+					<input type="date" class="form-control mt-2" id="date"  name="date" value={{dates[0]}}>
+>>>>>>> c6540636381501790dc1c7f1d10b4fee1b081591
 					
 				</form>
 			
@@ -70,42 +90,64 @@
 				</tr>
 			</thead>
 			<tbody>
-				{%if records != None %}
-					{%for r in records%}
-					<tr>
-						<th scope="row" class="text-center align-middle">
-							{{(start_search_date+timedelta(dayshift,0)).date()}}
-						</th>
-						{%for i in range(1, 15)%}
-							{% if r['status'].get(i) != None %}
-								{% if r['status'][i][0] == 0%}
-									<td class="bg-danger text-center align-middle text-light font-weight-bold">
-										原因: {{r['status'][i][1]}}
-									</td>
-								{% else %}
-									<td class="bg-info text-center align-middle text-light font-weight-bold">
-									會議名稱: {{r['status'][i][1]}}
-									<br>借用人: {{r['status'][i][2]}}
+				
+				{%for day in range(7)%}
+				<tr>
+					<th scope="row" class="text-center align-middle">
+						{{dates[day]}}({{dates_weekdays[day]}})
+					</th>
+					{%for section in range(1, 15)%}
+						{% if classroom['status'][day].get(section) != None %}
+							{% if classroom['status'][day][section][0] == 0 %}
+								<td class="bg-danger text-center align-middle text-light font-weight-bold">
+									原因: {{classroom['status'][day][section][1]}}
 								</td>
-								{% endif %}
 							{% else %}
-							<td class="text-center align-middle">
+								<td class="bg-info text-center align-middle text-light font-weight-bold">
+								會議名稱: {{classroom['status'][day][section][1]}}
+								<br>借用人: {{classroom['status'][day][section][2]}}
 							</td>
-							{%endif%}
-						{%endfor%}
-					</tr>
+							{% endif %}
+						{% else %}
+						<td class="text-center align-middle">
+						</td>
+						{%endif%}
+					{%endfor%}
+				</tr>
 				{%endfor%}
 			</tbody>
 
 		</table>
-		
-		{% else %}
-			</tbody>
-
-		</table>
-		<h1 class="text-center mt-3 mb-2">無資料</h1>
-		{% endif %}
 	</div>
 
 	
+{% endblock %}
+
+{% block script %}
+<script>
+
+function addItem(form, name, value)
+{
+	const hiddenField = document.createElement("input");
+
+	hiddenField.type = 'hidden';
+	hiddenField.name =  name;
+	hiddenField.value = value;
+	form.appendChild(hiddenField);
+}
+
+$("#date").on("change", function () {
+	var form = document.createElement("form");
+	const start_date = document.getElementById('date').value;
+	
+	form.setAttribute("action", '{{url_for('search_single_page')}}');
+	form.setAttribute("method", "post");
+	addItem(form, "CR_ID", "{{classroom['CR_ID']}}");
+	addItem(form, "start_date", start_date);
+	document.body.appendChild(form);
+	form.submit();
+});
+
+
+</script>
 {% endblock %}
