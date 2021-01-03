@@ -141,7 +141,7 @@ def account_management_page():
     #if cookie exists and user information is correct, then enter main page 
     check = cookie_check()
     if check[0] and check[1] == "admin":
-        return render_template("account_management.html", user_name = request.cookies.get('email'))
+        return render_template("account_management.html", user_name = request.cookies.get('email'), admin=check[1])
     else:
         return redirect(url_for('login_page'))
       
