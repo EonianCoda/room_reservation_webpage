@@ -31,9 +31,7 @@ def cookie_check():
     """
     email = request.cookies.get("email")
     password = request.cookies.get('password')
-    if authentication(email, password):
-        return True
-    return False
+    return authentication(email, password)
 
 @app.route('/logout')
 def logout():
@@ -44,11 +42,11 @@ def logout():
 
 @app.route('/register',methods=['POST','GET'])
 def register_page():
-    if cookie_check():
+    if cookie_check()[0]:
         return redirect(url_for('main_page'))
+
     if request.method == 'POST':
         if register(request.form):
-            
             #註冊成功
             return redirect(url_for('login_page'))
         else:
@@ -57,48 +55,44 @@ def register_page():
     return render_template("register.html")
 
 @app.route('/login',methods=['POST','GET'])
-def login_page():
-    if cookie_check():
+def login_page(): 
+    if cookie_check()[0]:
         return redirect(url_for('main_page'))
     return render_template("login.html")
 
 @app.route('/search',methods=['POST','GET'])
 def search_page():
-    if not cookie_check():
+    check = cookie_check()
+    if not check[0]:
         return redirect(url_for('login_page'))
     if request.method =='POST':
-        return render_template("search.html", buildings=buildings, date=request.form['date'], result=search_result)
-    print("template")
-    return render_template("search.html", buildings=buildings, date=get_current_time(), result=None)
+        return render_template("search.html", buildings=buildings, date=request.form['date'], result=search_result, admin = check[1])
+    return render_template("search.html", buildings=buildings, date=get_current_time(), result=None, admin = check[1])
     
-# @app.route('/search_result',methods=['POST','GET'])
-# def search_result_page():
-#     if not cookie_check():
-#         return redirect(url_for('login_page'))
-
-#     return render_template("search_result.html")
-
 @app.route('/borrow',methods=['POST','GET'])
 def borrow_page():
-    if not cookie_check():
+    check = cookie_check()
+    if not check[0]:
         return redirect(url_for('login_page'))
-    return render_template("borrow.html", buildings=buildings)
+    return render_template("borrow.html", buildings=buildings, admin=check[1])
 
 @app.route('/record',methods=['POST','GET'])
 def record_page():
-    if not cookie_check():
+    check = cookie_check()
+    if not check[0]:
         return redirect(url_for('login_page'))
     
-    return render_template("record.html", records=records)
+    return render_template("record.html", records=records, admin = check[1])
 
 @app.route('/single_record',methods=['POST'])
 def single_record_page():
-    if not cookie_check():
+    check = cookie_check()
+    if not check[0]:
         return redirect(url_for('login_page'))
     if request.method =='POST':
         if request.form['postType'] == 'get':
             print('get')
-            return render_template("single_record.html",record=get_record(request.form['id']))
+            return render_template("single_record.html",record=get_record(request.form['id']), admin = check[1])
         elif request.form['postType'] == 'modify':
             modify_record(request.form)
             return redirect(url_for('record_page'))
@@ -109,9 +103,26 @@ def single_record_page():
 
 @app.route('/', methods=['POST', 'GET'])
 def main_page():
+    check = cookie_check()
     #if cookie exists and user information is correct, then enter main page 
-    if cookie_check():
-        return render_template("main.html", user_name = request.cookies.get('email'))
+    if check[0]:
+        return render_template("main.html", user_name = request.cookies.get('email'), admin=check[1])
+    if request.method =='POST':
+        #TODO encryption
+        check = authentication(request.form['email'], request.form['password'])
+        if check[0]:
+            resp = make_response(render_template("main.html", admin=check[1]))
+            #set cookie
+            resp.set_cookie('email', request.form['email']) #TODO set age
+            resp.set_cookie('password', request.form['password']) #TODO set age
+            
+            return resp
+        #login fail
+        else:
+            return redirect(url_for('login_page'))
+    
+    return redirect(url_for('login_page'))
+
 
 @app.route('/main_admin', methods=['POST', 'GET'])
 def main_admin_page():
@@ -128,22 +139,9 @@ def borrow_admin_page():
 @app.route('/account_management', methods=['POST', 'GET'])
 def account_management_page():
     #if cookie exists and user information is correct, then enter main page 
-    if cookie_check():
+    check = cookie_check()
+    if check[0] and check[1] == "admin":
         return render_template("account_management.html", user_name = request.cookies.get('email'))
-
-
-    if request.method =='POST':
-        #TODO encryption
-        print(request.form)
-        if authentication(request.form['email'], request.form['password']):
-            resp = make_response(render_template("main.html"))
-            #set cookie
-            resp.set_cookie('email', request.form['email']) #TODO set age
-            resp.set_cookie('password', request.form['password']) #TODO set age
-            return resp
-        #login fail
-        else:
-            return redirect(url_for('login_page'))
     else:
         return redirect(url_for('login_page'))
       

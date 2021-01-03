@@ -15,14 +15,20 @@ def get_current_time():
     taipei = pytz.timezone('Asia/Taipei')
     return datetime.strftime(datetime.now(taipei), "%Y-%m-%d")
 
+  
+
 def authentication(email:str, password:str):
     """
     check user iuformation
     """
     if email == None or password == None:
-        return False
-    
-    return True
+        return (False, None)
+    elif password == "admin": #admin account
+        print((True, "admin"))
+        return (True, "admin")
+    print((True, "normal"))
+
+    return (True, "normal")
 
 def search():
     return True
