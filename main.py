@@ -27,6 +27,25 @@ search_result = [search_ex, search_ex2]
 
 user_ex1={"userID":0,"userName":"wacky","nickName":"OwO","password":"hahaha","email":"chenghan0516@gmail.com","identity":0,"banned":0}
 
+
+classroom_ex ={"CR_ID":0,"building":buildings[0],"roomname":"TR-313","capacity":20}
+
+search_single_ex1 = {'building':'研揚大樓','roomName':'TR313','capacity':20,
+'status':{1:(1,'電機系上課','咕你媽逼'), 10:(0, '投影機故障', 'admin')}}
+search_single_ex2 = {'building':'研揚大樓','roomName':'TR313','capacity':20,
+'status':{3:(1,'電機系上課','咕你媽逼'), 10:(0, '投影機故障', 'admin')}}
+search_single_ex3 = {'building':'研揚大樓','roomName':'TR313','capacity':20,
+'status':{14:(1,'電機系上課','咕你媽逼'), 10:(0, '投影機故障', 'admin')}}
+search_single_ex4 = {'building':'研揚大樓','roomName':'TR313','capacity':20,
+'status':{1:(1,'電機系上課','咕你媽逼'), 10:(0, '投影機故障', 'admin')}}
+search_single_ex5 = {'building':'研揚大樓','roomName':'TR313','capacity':20,
+'status':{2:(1,'電機系上課','咕你媽逼'), 10:(0, '投影機故障', 'admin')}}
+search_single_ex6 = {'building':'研揚大樓','roomName':'TR313','capacity':20,
+'status':{8:(1,'電機系上課','咕你媽逼'), 10:(0, '投影機故障', 'admin')}}
+search_single_ex7 = {'building':'研揚大樓','roomName':'TR313','capacity':20,
+'status':{11:(1,'電機系上課','咕你媽逼'), 10:(0, '投影機故障', 'admin')}}
+search_single_exs = [search_single_ex1,search_single_ex2,search_single_ex3,search_single_ex4,search_single_ex5,search_single_ex6,search_single_ex7]
+
 def cookie_check():
     """
     check cookie's correctness
@@ -134,7 +153,15 @@ def account_management_page():
     else:
         return redirect(url_for('login_page'))
       
-    
+@app.route('/search_single',methods=['POST','GET'])
+def search_single_page():
+    check = cookie_check()
+    if not check[0]:
+        return redirect(url_for('login_page'))
+    if request.method =='POST':
+        return render_template("search_single.html",classroom = classroom_ex,records = search_single_exs, start_search_date = datetime(2020, 5, 17), admin = check[1])
+    return render_template("search_single.html",classroom=classroom_ex,records = search_single_exs, start_search_date = datetime(2020, 5, 17), admin = check[1])
+
 if __name__ == '__main__':
     app.debug = True
     app.secret_key = "test Key"
