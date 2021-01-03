@@ -21,20 +21,6 @@
                 <th scope="col">教室位置</th>
                 <th scope="col">教室</th>
                 <th scope="col">可容納人數</th>
-                <th scope="col">第1節</th>
-                <th scope="col">第2節</th>
-                <th scope="col">第3節</th>
-                <th scope="col">第4節</th>
-                <th scope="col">第5節</th>
-                <th scope="col">第6節</th>
-                <th scope="col">第7節</th>
-                <th scope="col">第8節</th>
-                <th scope="col">第9節</th>
-                <th scope="col">第10節</th>
-                <th scope="col">第11節</th>
-                <th scope="col">第12節</th>
-                <th scope="col">第13節</th>
-                <th scope="col">第14節</th>
             </tr>
         </thead>
         <tbody>
@@ -55,24 +41,6 @@
                     <th scope="row" class="text-center align-middle">
                         {{r['capacity']}}
                     </th>
-                    {%for i in range(1, 15)%}
-                        {% if r['status'].get(i) != None %}
-                            {% if r['status'][i][0] == 0%}
-                                <td class="bg-danger text-center align-middle text-light font-weight-bold">
-                                    原因: {{r['status'][i][1]}}
-                                </td>
-                            {% else %}
-                                <td class="bg-info text-center align-middle text-light font-weight-bold">
-                                會議名稱: {{r['status'][i][1]}}
-                                <br>借用人: {{r['status'][i][2]}}
-                            </td>
-                            {% endif %}
-                        {% else %}
-                        <td class="text-center align-middle">
-                        </td>
-                        {%endif%}
-                    {%endfor%}
-
                 </tr>
             {%endfor%}
         </tbody>

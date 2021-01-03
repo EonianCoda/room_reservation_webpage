@@ -10,11 +10,11 @@ search_ex2 = {"CR_ID":1, 'building':'研揚大樓','roomName':'TR414','capacity'
 search_result = [search_ex, search_ex2]
 
 record_ex = {'recordID':'123', 'title':'上課','startDate':'2021-01-30', 'startSection':1, 'endDate':'2021-01-30', 'endSection':10,
-'roomName':'TR313', 'building':'研揚大樓(TR)', 'participant':['茶是一種蔬菜湯','茶葉蛋',
+'roomName':'TR-313', 'building':'研揚大樓(TR)', 'participant':['茶是一種蔬菜湯','茶葉蛋',
 '神棍局局長']}
 
 record_ex2 = {'recordID':'456', 'title':'創業', 'startDate':'2021-02-01', 'startSection':1, 'endDate':'2021-01-31', 'endSection':10,
-'roomName':'TR411', 'building':'研揚大樓(TR)', 'participant':[]}
+'roomName':'TR-411', 'building':'研揚大樓(TR)', 'participant':[]}
 
 records = [record_ex, record_ex2]
 
@@ -32,6 +32,25 @@ search_single7 = {3:(1,'電機系上課','WackilySmiley'), 10:(0, '投影機故�
 
 search_single_ex = {'CR_ID':1,'building':'研揚大樓','roomName':'TR313','capacity':20, 'status':[search_single1,search_single2,
 search_single3,search_single4,search_single5,search_single6,search_single7]}
+
+borrow_search_ex = {'building':'研揚大樓','roomName':'TR-414','capacity':30}
+borrow_search_ex2 = {'building':'第四研究大樓','roomName':'T4-414','capacity':20}
+borrow_search_ex3 = {'building':'貝殼廳','roomName':'T4-314','capacity':90}
+borrow_search_exs = [borrow_search_ex, borrow_search_ex2, borrow_search_ex3]
+
+def borrow(data, borrow_type):
+    if borrow_type == "borrow":
+        if data['title'] == 'error':
+            return False
+        return True
+
+    elif borrow_type == "ban":
+        if data['title'] == "error":
+            return False
+        return True
+
+def search_for_borrow(data):
+    return borrow_search_exs 
 
 def get_record(recordID):
     return record_ex

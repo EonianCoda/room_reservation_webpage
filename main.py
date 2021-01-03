@@ -10,11 +10,11 @@ app = Flask(__name__)
 buildings=['研揚大樓(TR)','第四教學大樓(T4)','綜合研究大樓(RB)','國際大樓(IB)','電資館(EE)']
 
 record_ex = {'recordID':'123', 'title':'上課','startDate':'2021-01-30', 'startSection':1, 'endDate':'2021-01-30', 'endSection':10,
-'roomName':'TR313', 'building':'研揚大樓(TR)', 'participant':['茶是一種蔬菜湯','茶葉蛋',
+'roomName':'TR-313', 'building':'研揚大樓(TR)', 'participant':['茶是一種蔬菜湯','茶葉蛋',
 '神棍局局長']}
 
 record_ex2 = {'recordID':'456', 'title':'創業', 'startDate':'2021-02-01', 'startSection':1, 'endDate':'2021-01-31', 'endSection':10,
-'roomName':'TR411', 'building':'研揚大樓(TR)', 'participant':[]}
+'roomName':'TR-411', 'building':'研揚大樓(TR)', 'participant':[]}
 
 records = [record_ex, record_ex2]
 
@@ -88,6 +88,23 @@ def borrow_page():
     check = cookie_check()
     if not check[0]:
         return redirect(url_for('login_page'))
+    if request.method == "POST":
+
+        result = borrow(request.form, request.form['borrow_type'])
+        if request.form['borrow_type'] == "borrow":
+            if result: 
+                message="borrow_success"
+            else:
+                message="borrow_fail"
+
+        elif request.form['borrow_type'] == "ban":
+            if result: 
+                message="ban_success"
+            else:
+                message="ban_fail"
+        return render_template("borrow.html", buildings=buildings, admin=check[1], message=message)
+      
+
     return render_template("borrow.html", buildings=buildings, admin=check[1])
 
 @app.route('/borrow_search',methods=['POST','GET'])
@@ -97,8 +114,8 @@ def borrow_search_page():
         return redirect(url_for('login_page'))
 
     if request.method == "POST":
-        print(request.form)
-        return render_template("borrow_search.html")
+        result = search_for_borrow(request.form)
+        return render_template("borrow_search.html", result=result)
 
     return render_template("borrow_search.html")
 

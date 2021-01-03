@@ -15,7 +15,8 @@
 
 		<div class="d-flex justify-content-center align-items-center mt-4">
 			<div style="width:75%;border-color:black;border-style:solid;border-width:1px;padding:30px;">
-				<form method="POST" action={{url_for('borrow_page')}}>
+				<form method="POST" action={{url_for('borrow_page')}} id="borrow_form">
+					<input hidden name="borrow_type" id="borrow_type" value="borrow">
 					<div class="form-group">
 					  <label for="titleInput">會議名稱(Meeting Title)</label>
 					  <input class="form-control" id="titleInput" aria-describedby="titleHelp" placeholder="輸入名稱" maxlength="10" name="title">
@@ -66,7 +67,7 @@
 					<div class="form-group">
 						<div>
 							<label for="room_id_input">教室編號(Room Id)</label>
-							<button class="btn btn-secondary ml-3 text-center mb-1" style="width: 60px;"type="button" id="search">搜尋</button>
+							<button class="btn btn-secondary ml-3 text-center mb-1" style="width: 60px;" type="button" id="search">搜尋</button>
 						</div>
 						<input class="form-control" id="room_id_input" aria-describedby="roomNameHelp" onkeyup="value=value.replace(/[\W]/g,'') " 　　
 							onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
@@ -96,14 +97,15 @@
 					</div>
 
 					</div>
-					<button type="submit" style="width: 200px;" class="btn btn-primary btn-lg mt-3">
-						搜尋
+					
+					<button type="submit" style="width: 200px;" class="btn btn-primary btn-lg mt-3" type="submit">
+						借用
 						<br>
-						search
+						Borrow
 					</button>
 
 					{% if admin == "admin" %}
-					<button type="submit" style="width: 200px;" class="btn btn-danger btn-lg mt-3 ml-5">
+					<button style="width: 200px;" class="btn btn-danger btn-lg mt-3 ml-5" id="banButton" type="button" >
 						禁用
 						<br>
 						forbid
@@ -113,6 +115,22 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
+
+{% block head_script %}
+<script type="text/javascript">
+	function error_message() {
+		if("{{message}}" == "borrow_fail")
+			alert('借用失敗!');
+		else if("{{message}}" == "borrow_success")
+			alert('借用成功!');
+		else if("{{message}}" == "ban_success")
+			alert('禁用成功!');
+		else if("{{message}}" == "ban_fail")
+			alert('禁用失敗!');
+	}
+    window.onload = error_message();
+</script>
 {% endblock %}
 
 {% block script %}
@@ -136,20 +154,13 @@
         $(this).closest("tr").remove();
 	});
 	
-	function addItem(form, name, value)
-	{
-		const hiddenField = document.createElement('input');
-		hiddenField.type = 'hidden';
-		hiddenField.name =  name;
-		hiddenField.value = value;
-		form.appendChild(hiddenField);
-	}
 	$("#search").on("click", function () { 
 		var form = document.createElement("form");
-		form.setAttribute("method", "post");
-		form.setAttribute("target","_blank")
 		form.setAttribute("action", '{{url_for('borrow_search_page')}}');
-
+		form.setAttribute("target","_blank");
+		form.setAttribute("method", "post");
+	
+	
 		const startDate = document.getElementById("startDate").value;
 		const endDate = document.getElementById("endDate").value;
 		const startSection = document.getElementById("startSection").value;
@@ -174,6 +185,24 @@
 	}
 	);
 
+
+	function addItem(form, name, value)
+	{
+		const hiddenField = document.getElementById('borrow_form');
+
+		hiddenField.type = 'hidden';
+		hiddenField.name =  name;
+		hiddenField.value = value;
+		form.appendChild(hiddenField);
+	}
+
+	$("#banButton").on("click", function () {
+		var borrow_type = document.getElementById('borrow_type');
+		borrow_type.value = "ban";
+		var form = document.getElementById('borrow_form');
+		form.submit();
+	}
+	);
 });
 </script>
 {% endblock %}
