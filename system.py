@@ -18,8 +18,8 @@ record_ex2 = {'recordID':'456', 'title':'創業', 'startDate':'2021-02-01', 'sta
 
 records = [record_ex, record_ex2]
 
-user_ex1={"userID":0,"userName":"wacky","nickName":"OwO","password":"hahaha","email":"chenghan0516@gmail.com","identity":0,"banned":False}
-user_ex2={"userID":0,"userName":"hello","nickName":"OwO","password":"hahaha","email":"chenghan0516@gmail.com","identity":0,"banned":True}
+user_ex1={"userID":0,"userName":"咕你媽逼","nickName":"OwO","password":"hahaha","email":"chenghan0516@gmail.com","identity":1,"banned":False}
+user_ex2={"userID":0,"userName":"茶葉蛋","nickName":"OwO","password":"hahaha","email":"chenghan0516@gmail.com","identity":0,"banned":True}
 
 
 search_single1 = {1:(1,'電機系上課','咕你媽逼'), 10:(0, '投影機故障', 'admin')}
@@ -87,9 +87,9 @@ def authentication(email:str, password:str):
 
 
 def getUserData(userName):
-    if userName == "wacky":
+    if userName == "咕你媽逼":
         return (True, user_ex1)
-    elif userName == "hello":
+    elif userName == "茶葉蛋":
         return (True, user_ex2)
     else:
         return (False, None)

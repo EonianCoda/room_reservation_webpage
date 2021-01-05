@@ -19,7 +19,7 @@ record_ex2 = {'recordID':'456', 'title':'創業', 'startDate':'2021-02-01', 'sta
 records = [record_ex, record_ex2]
 
 weekdays= ['一', '二', '三', '四','五','六','日']
-allUsers = ['神棍局局長','一竿子打翻一船人','茶是一種蔬菜湯','茶葉蛋','咕你媽逼']
+allUserNames = ['神棍局局長','一竿子打翻一船人','茶是一種蔬菜湯','茶葉蛋','咕你媽逼','Jerry','123','444','666','7414']
 
 def cookie_check():
     """
@@ -104,10 +104,10 @@ def borrow_page():
                 message="ban_success"
             else:
                 message="ban_fail"
-        return render_template("borrow.html", buildings=buildings, admin=check[1], message=message, allUsers = allUsers)
+        return render_template("borrow.html", buildings=buildings, admin=check[1], message=message, allUserNames = allUserNames)
       
 
-    return render_template("borrow.html", buildings=buildings, admin=check[1], allUsers = allUsers)
+    return render_template("borrow.html", buildings=buildings, admin=check[1], allUserNames = allUserNames)
 
 @app.route('/borrow_search',methods=['POST','GET'])
 def borrow_search_page():
@@ -141,7 +141,7 @@ def single_record_page():
             record = get_record(request.form['recordID'])
             remainingUsers = []
             
-            for user in allUsers:
+            for user in allUserNames:
                 if user not in record['participant']:
                     remainingUsers.append(user)
 
@@ -169,19 +169,20 @@ def account_management_page():
     if check[0] and check[1] == "admin":
         if request.method == "POST":
             print(request.form)
+            
             if request.form['postType'] == "search":
                 result = getUserData(request.form['userName'])
                 if result[0]:
-                    return render_template("account_management.html", user = result[1], admin=check[1])
+                    return render_template("account_management.html", user = result[1], admin=check[1], allUserNames = allUserNames)
                 else:
-                    return render_template("account_management.html", user = result[1], admin=check[1], message = "error")
+                    return render_template("account_management.html", user = result[1], admin=check[1], message = "error", allUserNames = allUserNames)
             elif request.form['postType'] == "delete":
                 result = deleteAccount(request.form['userID'])
                 if result:
                     result = "delete_success"
                 else:
                     result = "delete_fail"
-                return render_template("account_management.html", user = None, admin=check[1], message = result)
+                return render_template("account_management.html", user = None, admin=check[1], message = result, allUserNames = allUserNames)
 
             elif request.form['postType'] == "ban":
                 result = banAccount(request.form['userID'])
@@ -189,7 +190,7 @@ def account_management_page():
                     result = "ban_success"
                 else:
                     result = "ban_fail"
-                return render_template("account_management.html", user = None, admin=check[1], message = result)
+                return render_template("account_management.html", user = None, admin=check[1], message = result, allUserNames = allUserNames)
 
             elif request.form['postType'] == "unban":
                 result = unBanAccount(request.form['userID'])
@@ -197,8 +198,8 @@ def account_management_page():
                     result = "unban_success"
                 else:
                     result = "unban_fail"
-                return render_template("account_management.html", user = None, admin=check[1], message = result)
-        return render_template("account_management.html", user = None, admin=check[1])
+                return render_template("account_management.html", user = None, admin=check[1], message = result, allUserNames = allUserNames)
+        return render_template("account_management.html", user = None, admin=check[1], allUserNames = allUserNames)
     else:
         return redirect(url_for('login_page'))
       
