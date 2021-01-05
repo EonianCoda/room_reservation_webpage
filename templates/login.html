@@ -28,13 +28,15 @@
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
 			<form method="POST" action={{ url_for('login_page') }}>
 				<span class="login100-form-title p-b-33">
-					帳號登入(Account Login) 
+					帳號登入(Account Login)
 				</span>
 
 				<div class="form-group">
 				  <label for="emailInput">電子信箱(Email)</label>
-				  <input type="email" class="form-control" id ="emailInput" aria-describedby="emailHelp" placeholder="Email" name="email">
-				  <small id="emailHelp" class="form-text text-muted">必須以@gmail.com結尾</small>
+				  <div class="d-flex justify-content-between">
+					<input class="form-control " id ="emailInput" placeholder="Email" name="email">
+					<p class="form-control" readonly> @gmail.com </p>
+				  </div>
 				</div>
 				<div class="form-group">
 				  <label for="passwordInput">密碼(Password)</label>

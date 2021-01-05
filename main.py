@@ -19,6 +19,7 @@ record_ex2 = {'recordID':'456', 'title':'創業', 'startDate':'2021-02-01', 'sta
 records = [record_ex, record_ex2]
 
 weekdays= ['一', '二', '三', '四','五','六','日']
+allUsers = ['神棍局局長','一竿子打翻一船人','茶是一種蔬菜湯','茶葉蛋','咕你媽逼']
 
 def cookie_check():
     """
@@ -85,6 +86,7 @@ def search_page():
     
 @app.route('/borrow',methods=['POST','GET'])
 def borrow_page():
+    message =""
     check = cookie_check()
     if not check[0]:
         return redirect(url_for('login_page'))
@@ -102,10 +104,10 @@ def borrow_page():
                 message="ban_success"
             else:
                 message="ban_fail"
-        return render_template("borrow.html", buildings=buildings, admin=check[1], message=message)
+        return render_template("borrow.html", buildings=buildings, admin=check[1], message=message, allUsers = allUsers)
       
 
-    return render_template("borrow.html", buildings=buildings, admin=check[1])
+    return render_template("borrow.html", buildings=buildings, admin=check[1], allUsers = allUsers)
 
 @app.route('/borrow_search',methods=['POST','GET'])
 def borrow_search_page():
@@ -136,8 +138,14 @@ def single_record_page():
         return redirect(url_for('login_page'))
     if request.method =='POST':
         if request.form['postType'] == 'get':
-            print('get')
-            return render_template("single_record.html",record=get_record(request.form['recordID']), admin = check[1])
+            record = get_record(request.form['recordID'])
+            remainingUsers = []
+            
+            for user in allUsers:
+                if user not in record['participant']:
+                    remainingUsers.append(user)
+
+            return render_template("single_record.html",record=record, admin = check[1], remainingUsers = remainingUsers)
         elif request.form['postType'] == 'modify':
             modify_record(request.form)
             return redirect(url_for('record_page'))
