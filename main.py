@@ -1,6 +1,6 @@
 from flask import Flask , render_template
 from flask import request, url_for, flash, redirect, make_response
-
+from flask import jsonify
 from admin import *
 from system import *
 import datetime
@@ -20,6 +20,15 @@ records = [record_ex, record_ex2]
 
 weekdays= ['一', '二', '三', '四','五','六','日']
 allUserNames = ['神棍局局長','一竿子打翻一船人','茶是一種蔬菜湯','茶葉蛋','咕你媽逼','Jerry','123','444','666','7414']
+
+@app.route('/123')
+def get_current_user():
+    return jsonify(
+        username='你好',
+        email='哈摟',
+        id='123'
+    )
+
 
 def cookie_check():
     """

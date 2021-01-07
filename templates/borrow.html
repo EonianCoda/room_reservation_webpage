@@ -15,7 +15,7 @@
 
 		<div class="d-flex justify-content-center align-items-center mt-4">
 			<div style="width:75%;border-color:black;border-style:solid;border-width:1px;padding:30px;">
-				<form method="POST" action={{url_for('borrow_page')}} id="borrow_form">
+				<form method="POST" action={{url_for('borrow_page')}} id="borrow_form" onsubmit="borrow()">
 					<input hidden name="borrow_type" id="borrow_type" value="borrow">
 					<div class="form-group">
 					  <label for="titleInput">會議名稱(Meeting Title)</label>
@@ -24,27 +24,38 @@
 					</div>
 					<div class="form-group">
 					  <label for="startDate">開始</label>
-					  <br>
-					  <input style="display: inline ;width: 30%;left:5%" class="form-control" type="date" id="startDate" name="startDate">
-						<span>
-						,&nbsp;&nbsp;第 <input  class="border-bottom border-dark" style="width:5%;text-align:center"
-							onkeyup="value=value.replace(/[^\d]/g,'') " 　　
-							onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
-							　　 id ="startSection" name="startSection">
-						節
-						</span>
+						<div>
+							<input style="display: inline ;width: 30%;left:5%" class="form-control" type="date" id="startDate" name="startDate">
+								<span>
+										,&nbsp;&nbsp;
+										第 
+										<select class="custom-select border border-secondary w-auto h-auto" 
+										id="startSection" name="startSection" >
+											{%for i in range(1, 15)%}
+												<option value={{i}}> {{i}} </option>
+											{%endfor%} 
+										</select>
+									節
+								</span>
+						</div>
 					</div>
+
 					<div class="form-group">
-						<label for="endDate">結束</label>
-						<br>
-						<input style="display: inline ;width: 30%;left:5%" class="form-control" type="date" id="endDate" name="endDate">
-						<span>
-						  ,&nbsp;&nbsp;第 <input class="border-bottom border-dark" style="width:5%;text-align:center"
-							  onkeyup="value=value.replace(/[^\d]/g,'') " 　　
-							  onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
-							  　　 id="endSection" name="endSection">
-						  節
-						  </span>
+						<label for="startDate">結束</label>
+						  <div>
+							  <input style="display: inline ;width: 30%;left:5%" class="form-control" type="date" id="endDate" name="endDate">
+								  <span>
+										  ,&nbsp;&nbsp;
+										  第 
+										  <select class="custom-select border border-secondary w-auto h-auto" 
+										  id="endSection" name="endSection" >
+											  {%for i in range(1, 15)%}
+												  <option value={{i}}> {{i}} </option>
+											  {%endfor%} 
+										  </select>
+									  節
+								  </span>
+						  </div>
 					  </div>
 
 					<div class="form-group">
@@ -69,8 +80,7 @@
 							<label for="room_id_input">教室編號(Room Id)</label>
 							<button class="btn btn-secondary ml-3 text-center mb-1" style="width: 60px;" type="button" id="search">搜尋</button>
 						</div>
-						<input class="form-control" id="room_id_input" aria-describedby="roomNameHelp" onkeyup="value=value.replace(/[\W]/g,'') " 　　
-							onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+						<input class="form-control" id="room_id_input" aria-describedby="roomNameHelp" 
 						 	placeholder="輸入教室編號" name="roomName">
 						<small id="roomNameHelp" class="form-text text-muted">如:TR313</small>
 					  </div>
@@ -99,7 +109,7 @@
 
 					</div>
 					
-					<button type="submit" style="width: 200px;" class="btn btn-primary btn-lg mt-3" type="submit">
+					<button style="width: 200px;" class="btn btn-primary btn-lg mt-3" type="button" onclick="borrow()">
 						借用
 						<br>
 						Borrow
@@ -136,6 +146,62 @@
 
 {% block script %}
 <script>
+
+	function compareDate(startDate, endDate, startSection, endSection)
+	{
+		const startYear = parseInt(startDate.split('-')[0]);
+		const startMonth = parseInt(startDate.split('-')[1]);
+		const startDay = parseInt(startDate.split('-')[2]);
+
+		const endYear = parseInt(endDate.split('-')[0]);
+		const endMonth = parseInt(endDate.split('-')[1]);
+		const endDay = parseInt(endDate.split('-')[2]);
+
+		
+		if(startYear > endYear) 
+		{
+			return true;
+		}
+		else if (startYear == endYear)
+		{
+			if(startMonth > endMonth)
+			{
+				return true;
+			}
+			else if(startMonth == endMonth)
+			{
+				if((startDay > endDay) || (startDay == endDay && startSection >= endSection)) return true;
+			}
+		}
+		return false;
+	}
+	function borrow()
+	{
+		const startDate = document.getElementById("startDate").value;
+		const endDate = document.getElementById("endDate").value;
+		const startSection = document.getElementById("startSection").value;
+		const endSection = document.getElementById("endSection").value;
+		const building = document.getElementById("building").value;
+		const capacity = document.getElementById("capacity").value;
+
+
+		if(document.getElementById('titleInput').value == '' || startDate == ''
+		|| endDate == '' || startSection == '' || endSection == '' || building == '請選擇大樓...' 
+		|| capacity == '' || document.getElementById('room_id_input').value == '')
+		{
+			alert('不可有欄位為空');
+		}
+		else if(compareDate(startDate, endDate, startSection, endSection))
+		{
+			alert("結束時間不可早於開始時間!");
+		}
+		else
+		{
+			document.getElementById('borrow_form').submit();
+		}
+	}
+
+
 	$(document).ready(function () {
 	var id = document.getElementById("counter");
 	var userSelecter = document.getElementById("userSelect");
@@ -171,6 +237,8 @@
 		$(this).closest("tr").remove();
 	});
 	
+	
+
 	function addItem(form, name, value)
 	{
 		const hiddenField = document.createElement("input");
